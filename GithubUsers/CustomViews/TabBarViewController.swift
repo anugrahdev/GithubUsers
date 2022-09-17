@@ -18,7 +18,7 @@ class TabBarController: UITabBarController {
     }
     
     func createSearchNC() -> UINavigationController {
-        let searchVC = SearchVC()
+        let searchVC = SearchWireframe().createModule()
         searchVC.title = "Search"
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         
