@@ -13,7 +13,13 @@ class SearchWireframe: SearchWireframeProtocol {
 
     weak var controller: SearchVC?
     
-    func createModule() -> SearchVC {
+    let resolver: Resolver
+    
+    init(resolver: Resolver) {
+        self.resolver = resolver
+    }
+    
+    func setupSearchViewController() -> SearchVC {
         let interactor = SearchInteractor()
         let presenter = SearchPresenter(interactor: interactor, wireframe: self)
         let view = SearchVC()
@@ -26,7 +32,11 @@ class SearchWireframe: SearchWireframeProtocol {
     }
     
     func setLoadingIndicator(isHidden: Bool) {
-        
+        if isHidden {
+            controller?.usersTableView.hideLoading()
+        } else {
+            controller?.usersTableView.showLoading()
+        }
     }
     
     func showNoInternetAlert() {
@@ -38,3 +48,13 @@ class SearchWireframe: SearchWireframeProtocol {
     }
 
 }
+
+extension Router {
+    
+    func setupSearchViewController() -> SearchVC {
+        let wireframe = SearchWireframe(resolver: resolver)
+        return wireframe.setupSearchViewController()
+    }
+    
+}
+

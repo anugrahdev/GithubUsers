@@ -10,6 +10,8 @@ import UIKit
 
 class TabBarController: UITabBarController {
 
+    let router = Module.container.resolve(Router.self)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -18,7 +20,7 @@ class TabBarController: UITabBarController {
     }
     
     func createSearchNC() -> UINavigationController {
-        let searchVC = SearchWireframe().createModule()
+        let searchVC = router.setupSearchViewController()
         searchVC.title = "Search"
         searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
         

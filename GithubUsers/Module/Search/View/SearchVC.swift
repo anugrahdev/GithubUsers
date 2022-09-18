@@ -46,7 +46,9 @@ extension SearchVC: UISearchResultsUpdating {
     @objc func doingSearch(_ searchBar: UISearchBar) {
         guard let text = searchController.searchBar.text else { return }
         if !text.isEmpty {
-            presenter?.fetchSearchUsers(with: text)
+            presenter?.resetData()
+            presenter?.searchQuery = text
+            presenter?.fetchSearchUsers()
         }
     }
 }
@@ -73,5 +75,21 @@ extension SearchVC: UITableViewDelegate, UITableViewDataSource {
         cell?.selectionStyle = .none
         cell?.layoutIfNeeded()
         return cell ?? UITableViewCell()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollOffset = scrollView.contentOffset.y + scrollView.frame.size.height
+        let scrollView = scrollView.contentSize.height
+        let totalPage = presenter?.totalPage ?? 1
+        let currentPage = presenter?.currentPage ?? 1
+        let isLoadData = presenter?.isLoadData
+        if scrollOffset > scrollView, isLoadData == false, totalPage != 1 {
+            let nextPage = currentPage + 1
+            if nextPage <= totalPage {
+                presenter?.isLoadData = true
+                presenter?.currentPage = nextPage
+                presenter?.fetchSearchUsers()
+            }
+        }
     }
 }

@@ -14,14 +14,21 @@ protocol SearchViewProtocol: BaseViewProtocol {
 
 protocol SearchPresenterProtocol: BasePresenterProtocol {
     var allUsers: [UserModel]? { get set }
-
-    func fetchSearchUsers(with query: String)
+    var usersTotalCount: Int? { get set }
+    var totalPage: Int { get }
+    var currentPage: Int { get set }
+    var isLoadData: Bool { get set }
+    var searchQuery: String { get set }
+    
+    func fetchSearchUsers()
+    func resetData()
 }
 
 protocol SearchWireframeProtocol: BaseWireframeProtocol {}
 
 protocol SearchInteractorProtocol: BaseInteractorProtocol {
-    func getAllSearchUsers(query: String)
+    func addUserToFavorite(user: FavoriteUser)
+    func getAllSearchUsers(request: SearchUserRequest)
 }
 
 protocol SearchInteractorDelegate: BaseInteractorDelegate {
