@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreMIDI
 
 class SearchVC: UIViewController {
     
@@ -13,6 +14,7 @@ class SearchVC: UIViewController {
     var presenter: SearchPresenterProtocol?
     @IBOutlet weak var usersTableView: UITableView!
     let searchController = UISearchController()
+    let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,12 +22,26 @@ class SearchVC: UIViewController {
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
+        setupRefreshView()
     }
     
     func setupTableView(){
         usersTableView.register(UserTableViewCell.nib(), forCellReuseIdentifier: UserTableViewCell.identifier)
         usersTableView.delegate = self
         usersTableView.dataSource = self
+    }
+    
+    func setupRefreshView() {
+        refreshControl.attributedTitle = NSAttributedString(string: "Tarik untuk memperbarui")
+        refreshControl.addTarget(self, action: #selector(self.refreshData(_:)), for: .valueChanged)
+        usersTableView.addSubview(refreshControl)
+    }
+    
+    @objc func refreshData(_ sender: AnyObject) {
+        presenter?.resetData()
+        self.refreshControl.endRefreshing()
+        self.usersTableView.reloadData()
+        presenter?.fetchSearchUsers()
     }
 
 }
@@ -55,26 +71,35 @@ extension SearchVC: UISearchResultsUpdating {
 
 extension SearchVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let count = presenter?.allUsers?.count {
-            if count == 0 {
-                tableView.setEmptyView(title: "No users found")
+        if let count = presenter?.allUsers?.count, let isLoading = presenter?.isLoadData, let firstCalled = presenter?.firstCalled {
+            if count == 0 && !isLoading {
+                tableView.setEmptyView(title: firstCalled ? "Search any user to show result" : "No users found")
             } else {
                 tableView.restore()
             }
             return count
         }
-        tableView.setEmptyView(title: "Search any user to show result")
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier, for: indexPath) as? UserTableViewCell
-        if let data = presenter?.allUsers?[indexPath.row] {
-            cell?.configure(with: data)
+        if let data = presenter?.allUsers?[indexPath.row], let avatar = data.avatarUrl, let username = data.username {
+            cell?.configure(avatarUrl: avatar, username: username)
         }
         cell?.selectionStyle = .none
         cell?.layoutIfNeeded()
         return cell ?? UITableViewCell()
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let addToFavorite = UIContextualAction(style: .normal, title: "Favorite") {  [weak self] (contextualAction, view, boolValue) in
+            self?.presenter?.saveFavoriteUser(with: (self?.presenter?.allUsers?[indexPath.row])!)
+        }
+        addToFavorite.backgroundColor = .systemGreen
+        let swipeActions = UISwipeActionsConfiguration(actions: [addToFavorite])
+
+        return swipeActions
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -23,9 +23,9 @@ class UserTableViewCell: UITableViewCell, TableViewCellProtocol {
         
     }
     
-    func configure(with model: UserModel) {
-        userNameLabel.text = model.username
-        if let avatarString = model.avatarUrl, let avatarUrl = URL(string: avatarString) {
+    func configure(avatarUrl: String, username: String) {
+        userNameLabel.text = username
+        if let avatarUrl = URL(string: avatarUrl) {
             userAvatarImage.kf.setImage(with: avatarUrl, placeholder: AppImage.placeholder)
         }
     }

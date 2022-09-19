@@ -23,8 +23,16 @@ class SearchInteractor: SearchInteractorProtocol {
         }
     }
     
-    func addUserToFavorite(user: FavoriteUser) {
-        
+    func addUserToFavorite(user: UserModel) {
+        let saveUser = FavoriteUser(context: CoreDataManager.shared.viewContext)
+        saveUser.avatarUrl = user.avatarUrl
+        saveUser.username = user.username
+        if !CoreDataManager.shared.isUsersAlreadySaved(username: user.username ?? "") {
+            CoreDataManager.shared.save()
+            delegate?.addUserToFavoriteResult(isSuccess: true)
+        } else {
+            delegate?.addUserToFavoriteResult(isSuccess: false)
+        }
     }
     
 }

@@ -14,14 +14,14 @@ class SearchPresenter: SearchPresenterProtocol {
     weak var view: SearchViewProtocol?
     let interactor: SearchInteractorProtocol
     let wireframe: SearchWireframeProtocol
-    let usersPerPage = 10
+    let usersPerPage = 15
     
     var allUsers: [UserModel]?
-    var usersTotalCount: Int?
     var isLoadData: Bool
     var totalPage: Int
     var currentPage: Int
     var searchQuery: String
+    var firstCalled: Bool
     
     init(interactor: SearchInteractorProtocol, wireframe: SearchWireframeProtocol) {
         self.allUsers = []
@@ -29,33 +29,45 @@ class SearchPresenter: SearchPresenterProtocol {
         self.wireframe = wireframe
         self.totalPage = 1
         self.currentPage = 1
-        self.isLoadData = true
+        self.isLoadData = false
         self.searchQuery = ""
+        self.firstCalled = true
     }
     
     func fetchSearchUsers() {
+        guard InternetConnectivity.isConnected() else {
+            wireframe.showNoInternetAlert()
+            return
+        }
         wireframe.setLoadingIndicator(isHidden: false)
         interactor.getAllSearchUsers(request: SearchUserRequest(query: searchQuery, page: currentPage, per_page: usersPerPage))
     }
     
     func resetData() {
         allUsers = []
-        usersTotalCount = 0
-        totalPage = 0
-        currentPage = 0
+        totalPage = 1
+        currentPage = 1
+    }
+    
+    func saveFavoriteUser(with user: UserModel) {
+        interactor.addUserToFavorite(user: user)
     }
     
 }
 
 extension SearchPresenter: SearchInteractorDelegate {
     
+    func addUserToFavoriteResult(isSuccess: Bool) {
+        wireframe.showFavoriteAlert(isSuccess: isSuccess)
+    }
+    
     func getAllSearchUserDidSuccess(_ result: GitUserModel?) {
         self.allUsers?.append(contentsOf: result?.items ?? [])
-        usersTotalCount = result?.totalCount
         if let totalCount = result?.totalCount {
             var dataCurrentPage: Double = Double(totalCount / usersPerPage)
             dataCurrentPage.round(.up)
             totalPage = Int(dataCurrentPage)
+            firstCalled = false
         }
         
         DispatchQueue.main.async { [weak self] in
@@ -66,11 +78,10 @@ extension SearchPresenter: SearchInteractorDelegate {
     }
     
     func serviceRequestDidFail(_ error: NSError) {
-        
-    }
-    
-    func userUnAuthorized() {
-        
+        DispatchQueue.main.async { [weak self] in
+            self?.wireframe.setLoadingIndicator(isHidden: true)
+            self?.wireframe.showErrorAlert(error.localizedDescription)
+        }
     }
     
 }

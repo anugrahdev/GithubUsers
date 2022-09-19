@@ -17,6 +17,12 @@ class TabBarController: UITabBarController {
 
         UITabBar.appearance().tintColor = .systemGreen
         viewControllers = [createSearchNC(), createFavoritesNC()]
+        NotificationCenter.default.addObserver(self, selector: #selector(showNoInternetAlert), name: .getNotification(with: .offline), object: nil)
+
+    }
+    
+    @objc private func showNoInternetAlert() {
+        showNoInternetConnectionAlert()
     }
     
     func createSearchNC() -> UINavigationController {
@@ -28,7 +34,7 @@ class TabBarController: UITabBarController {
     }
     
     func createFavoritesNC() -> UINavigationController {
-        let favoritesListVC = FavoritesVC()
+        let favoritesListVC = router.setupFavoritesViewController()
         favoritesListVC.title = "Favorites"
         favoritesListVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
         

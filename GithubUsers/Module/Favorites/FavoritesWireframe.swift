@@ -1,42 +1,38 @@
 //
-//  SearchWireframe.swift
+//  FavoritesWireframe.swift
 //  GithubUsers
 //
-//  Created by Anang Nugraha on 16/09/22.
+//  Created by Anang Nugraha on 18/09/22.
 //  
 //
 
 import Foundation
 import UIKit
 
-class SearchWireframe: SearchWireframeProtocol {
-
-    weak var controller: SearchVC?
+class FavoritesWireframe: FavoritesWireframeProtocol {
     
+    weak var controller: FavoritesVC?
     let resolver: Resolver
     
     init(resolver: Resolver) {
         self.resolver = resolver
     }
     
-    func setupSearchViewController() -> SearchVC {
-        let interactor = SearchInteractor()
-        let presenter = SearchPresenter(interactor: interactor, wireframe: self)
-        let view = SearchVC()
+    func setupFavoritesViewController() -> FavoritesVC {
+        let interactor = FavoritesInteractor()
+        let presenter = FavoritesPresenter(interactor: interactor, wireframe: self)
+        let view = FavoritesVC()
         interactor.delegate = presenter
         controller = view
         view.presenter = presenter
         presenter.view = view
-
+        
         return view
     }
     
+    
     func setLoadingIndicator(isHidden: Bool) {
-        if isHidden {
-            controller?.usersTableView.hideLoading()
-        } else {
-            controller?.usersTableView.showLoading()
-        }
+        
     }
     
     func showNoInternetAlert() {
@@ -51,10 +47,10 @@ class SearchWireframe: SearchWireframeProtocol {
         self.controller?.present(alert, animated: true)
     }
     
-    func showFavoriteAlert(isSuccess: Bool) {
+    func showFavoriteAlert() {
         let dialogMessage = UIAlertController(
             title: "",
-            message: isSuccess ? "You are successfully add this user to your favorite :D" : "this user already added to your favorite list",
+            message: "You are successfully remove user from your favorite",
             preferredStyle: .alert)
          
         let ok = UIAlertAction(title: "Ok", style: .default, handler: { (action) -> Void in
@@ -69,10 +65,9 @@ class SearchWireframe: SearchWireframeProtocol {
 
 extension Router {
     
-    func setupSearchViewController() -> SearchVC {
-        let wireframe = SearchWireframe(resolver: resolver)
-        return wireframe.setupSearchViewController()
+    func setupFavoritesViewController() -> FavoritesVC {
+        let wireframe = FavoritesWireframe(resolver: resolver)
+        return wireframe.setupFavoritesViewController()
     }
     
 }
-
