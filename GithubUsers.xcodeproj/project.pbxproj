@@ -249,6 +249,8 @@
 		6571FD6628DA13CD009B718B /* App */ = {
 			isa = PBXGroup;
 			children = (
+				658AF29F28D4B8BF00C78D42 /* AppDelegate.swift */,
+				658AF2A128D4B8BF00C78D42 /* SceneDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -283,8 +285,6 @@
 				658AF2ED28D4CDBE00C78D42 /* Class */,
 				658AF2D528D4BC9200C78D42 /* Module */,
 				658AF2D228D4BBD500C78D42 /* CustomViews */,
-				658AF29F28D4B8BF00C78D42 /* AppDelegate.swift */,
-				658AF2A128D4B8BF00C78D42 /* SceneDelegate.swift */,
 				658AF2AD28D4B8C100C78D42 /* LaunchScreen.storyboard */,
 				658AF2B028D4B8C100C78D42 /* Info.plist */,
 				658AF2A828D4B8BF00C78D42 /* GithubUsers.xcdatamodeld */,
