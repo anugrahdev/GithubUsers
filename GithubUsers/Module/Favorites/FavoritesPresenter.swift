@@ -23,10 +23,6 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     }
     
     func fetchAllFavoriteUsers() {
-        guard InternetConnectivity.isConnected() else {
-            wireframe.showNoInternetAlert()
-            return
-        }
         interactor.getAllFavoriteUsers()
     }
     

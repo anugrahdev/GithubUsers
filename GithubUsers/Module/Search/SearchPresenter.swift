@@ -14,8 +14,9 @@ class SearchPresenter: SearchPresenterProtocol {
     weak var view: SearchViewProtocol?
     let interactor: SearchInteractorProtocol
     let wireframe: SearchWireframeProtocol
-    let usersPerPage = 15
     
+    let usersPerPage = 15
+
     var allUsers: [UserModel]?
     var isLoadData: Bool
     var totalPage: Int
@@ -35,10 +36,6 @@ class SearchPresenter: SearchPresenterProtocol {
     }
     
     func fetchSearchUsers() {
-        guard InternetConnectivity.isConnected() else {
-            wireframe.showNoInternetAlert()
-            return
-        }
         wireframe.setLoadingIndicator(isHidden: false)
         interactor.getAllSearchUsers(request: SearchUserRequest(query: searchQuery, page: currentPage, per_page: usersPerPage))
     }
