@@ -40,7 +40,6 @@
 		658AF2AA28D4B8BF00C78D42 /* GithubUsers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 658AF2A828D4B8BF00C78D42 /* GithubUsers.xcdatamodeld */; };
 		658AF2AC28D4B8C100C78D42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 658AF2AB28D4B8C100C78D42 /* Assets.xcassets */; };
 		658AF2AF28D4B8C100C78D42 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 658AF2AD28D4B8C100C78D42 /* LaunchScreen.storyboard */; };
-		658AF2BA28D4B8C100C78D42 /* GithubUsersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AF2B928D4B8C100C78D42 /* GithubUsersTests.swift */; };
 		658AF2C428D4B8C100C78D42 /* GithubUsersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AF2C328D4B8C100C78D42 /* GithubUsersUITests.swift */; };
 		658AF2C628D4B8C100C78D42 /* GithubUsersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AF2C528D4B8C100C78D42 /* GithubUsersUITestsLaunchTests.swift */; };
 		658AF2D428D4BC5300C78D42 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658AF2D328D4BC5300C78D42 /* TabBarViewController.swift */; };
@@ -119,7 +118,6 @@
 		658AF2AE28D4B8C100C78D42 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		658AF2B028D4B8C100C78D42 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		658AF2B528D4B8C100C78D42 /* GithubUsersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GithubUsersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		658AF2B928D4B8C100C78D42 /* GithubUsersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUsersTests.swift; sourceTree = "<group>"; };
 		658AF2BF28D4B8C100C78D42 /* GithubUsersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GithubUsersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		658AF2C328D4B8C100C78D42 /* GithubUsersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUsersUITests.swift; sourceTree = "<group>"; };
 		658AF2C528D4B8C100C78D42 /* GithubUsersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GithubUsersUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -224,6 +222,7 @@
 		6539C06B28D97EE2007E50EB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				658AF2AB28D4B8C100C78D42 /* Assets.xcassets */,
 				6539C06C28D97EF1007E50EB /* JSON */,
 			);
 			path = Resources;
@@ -245,6 +244,13 @@
 				658AF2F528D4CE5F00C78D42 /* FavoritesVC.xib */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		6571FD6628DA13CD009B718B /* App */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 		658AF29328D4B8BF00C78D42 = {
@@ -272,13 +278,13 @@
 		658AF29E28D4B8BF00C78D42 /* GithubUsers */ = {
 			isa = PBXGroup;
 			children = (
+				6571FD6628DA13CD009B718B /* App */,
 				6539C06B28D97EE2007E50EB /* Resources */,
 				658AF2ED28D4CDBE00C78D42 /* Class */,
 				658AF2D528D4BC9200C78D42 /* Module */,
 				658AF2D228D4BBD500C78D42 /* CustomViews */,
 				658AF29F28D4B8BF00C78D42 /* AppDelegate.swift */,
 				658AF2A128D4B8BF00C78D42 /* SceneDelegate.swift */,
-				658AF2AB28D4B8C100C78D42 /* Assets.xcassets */,
 				658AF2AD28D4B8C100C78D42 /* LaunchScreen.storyboard */,
 				658AF2B028D4B8C100C78D42 /* Info.plist */,
 				658AF2A828D4B8BF00C78D42 /* GithubUsers.xcdatamodeld */,
@@ -291,7 +297,6 @@
 			children = (
 				65E6F9C928D8D30E00B78558 /* Favorites */,
 				65E6F9C828D8D30A00B78558 /* Search */,
-				658AF2B928D4B8C100C78D42 /* GithubUsersTests.swift */,
 			);
 			path = GithubUsersTests;
 			sourceTree = "<group>";
@@ -720,7 +725,6 @@
 			files = (
 				6539C07228D995AA007E50EB /* FavoritesPresenterTests.swift in Sources */,
 				65E6F9CB28D8D34000B78558 /* SearchPresenterTests.swift in Sources */,
-				658AF2BA28D4B8C100C78D42 /* GithubUsersTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
